@@ -1,5 +1,5 @@
 import { ContactListStyle, ContactItemStyle } from "./ContactsList.styled"
-import { ButtonStyle } from 'components/App.styled';
+import { ButtonStyle } from 'components/App/App.styled';
 import { getFilter } from "redux/filterSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { getPhoneBookValue } from "redux/phoneBookSlice";
