@@ -1,7 +1,9 @@
+import { MainTitle } from "components/Layout/Layout.styled";
+
 const Home = () => {
     return (
         <>
-            <p>Welcome to your Phonebook!</p>
+            <MainTitle>Phonebook</MainTitle>
         </>
     )
 }
