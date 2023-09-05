@@ -2,7 +2,7 @@ import { ButtonStyle, InputStyle, LabelStyle } from "components/App/App.styled";
 import { FormStyle } from "components/Form/Form.styled";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { postLogInThunk } from "services/fetchLogIn";
+import { postLogInThunk } from "services/fetchAuth";
 
 const LoginForm = () => {
     const [email, setEmail] = useState('');

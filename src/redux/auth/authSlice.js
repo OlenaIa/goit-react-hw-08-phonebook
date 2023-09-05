@@ -1,7 +1,5 @@
-import { postLogInThunk } from "services/fetchLogIn";
-
 const { createSlice } = require("@reduxjs/toolkit");
-const { postUserThunk } = require("services/fetchAuth");
+const { postUserThunk, postLogInThunk, postLogOutThunk } = require("services/fetchAuth");
 
 const authInitialState = {
     user: {name: null, email: null},
@@ -47,6 +45,21 @@ export const authSlice = createSlice({
             .addCase(postLogInThunk.rejected, (state, { payload }) => {
                 state.isLoggedIn = false;
                 console.log('postLogInThunk payload with error', payload);
+                state.error = payload;
+            })
+        .addCase(postLogOutThunk.pending, (state) => {
+                state.isLoggedIn = false;
+                state.error = null;
+            })
+            .addCase(postLogOutThunk.fulfilled, (state) => {
+                state.isLoggedIn = false;
+                state.user = {name: null, email: null};
+                state.token = null;
+                state.error = null;
+            })
+            .addCase(postLogOutThunk.rejected, (state, { payload }) => {
+                state.isLoggedIn = false;
+                console.log('postLogOutThunk payload with error', payload);
                 state.error = payload;
             })
     }
