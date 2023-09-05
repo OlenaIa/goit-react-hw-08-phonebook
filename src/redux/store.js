@@ -10,9 +10,11 @@ import {
   PURGE,
   REGISTER,
 } from 'redux-persist'
+import { authSlice } from './auth/authSlice';
 
 export const store = configureStore({
     reducer: {
+        auth: authSlice.reducer,
         phoneBook: contactsPersistReducer,
         filter: filterSlice.reducer,
     },
