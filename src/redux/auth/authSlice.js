@@ -1,11 +1,15 @@
+import persistReducer from "redux-persist/es/persistReducer";
+import storage from 'redux-persist/lib/storage' // defaults to localStorage for web
+
 const { createSlice } = require("@reduxjs/toolkit");
-const { postUserThunk, postLogInThunk, postLogOutThunk } = require("services/fetchAuth");
+const { postUserThunk, postLogInThunk, postLogOutThunk, getCurrentUserThunk } = require("services/fetchAuth");
 
 const authInitialState = {
     user: {name: null, email: null},
     token: null,
     isLoggedIn: false,
-    error: null
+    error: null,
+    isCurrentUser: false
 };
 
 export const authSlice = createSlice({
@@ -62,8 +66,37 @@ export const authSlice = createSlice({
                 console.log('postLogOutThunk payload with error', payload);
                 state.error = payload;
             })
+        .addCase(getCurrentUserThunk.pending, (state) => {
+                state.isLoggedIn = false;
+            state.error = null;
+            state.isCurrentUser = true;
+            })
+            .addCase(getCurrentUserThunk.fulfilled, (state, { payload }) => {
+                state.isLoggedIn = true;
+                console.log('getCurrentUserThunk payload', payload);
+                state.user = payload;
+                state.error = null;
+                state.isCurrentUser = false;
+
+            })
+            .addCase(getCurrentUserThunk.rejected, (state, { payload }) => {
+                state.isLoggedIn = false;
+                console.log('getCurrentUserThunk payload with error', payload);
+                state.error = payload;
+                    state.isCurrentUser = false;
+            })
     }
 });
 
+const persistConfig = {
+    key: 'contacts',
+    storage,
+    whitelist: ['token']
+};
+
+export const authPersistReducer = persistReducer(
+    persistConfig,
+    authSlice.reducer
+);
 
 

@@ -46,6 +46,25 @@ const postLogOut = async (_, thunkAPI) => {
     }
 };
 
+const getCurrentUser = async (_, thunkAPI) => {
+    console.log('thunkAPI', thunkAPI.getState());
+    const state = thunkAPI.getState();
+    const persistedToken = state.auth.token;
+
+    if (persistedToken === null) {
+        return thunkAPI.rejectWithValue('Unable to fetch user');
+    };
+    setAuthHeader(persistedToken);
+
+    try {
+        const response = await axios.get('/users/current');
+        console.log('getCurrentUser response.data', response.data);
+        return response.data;
+    } catch (e) {
+        return thunkAPI.rejectWithValue(e.message);
+    }
+};
+
 export const postUserThunk = createAsyncThunk(
     'auth/postUser',
     postUser
@@ -59,5 +78,10 @@ export const postLogInThunk = createAsyncThunk(
 export const postLogOutThunk = createAsyncThunk(
     'auth/postLogOut',
     postLogOut
+);
+
+export const getCurrentUserThunk = createAsyncThunk(
+    'auth/getCurrentUser',
+    getCurrentUser
 );
 

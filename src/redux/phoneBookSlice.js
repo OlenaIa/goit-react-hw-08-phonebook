@@ -53,12 +53,12 @@ export const getPhoneBookValue = state => state.phoneBook.contacts;
 export const getIsLoading = state => state.phoneBook.isLoading;
 export const getError = state => state.phoneBook.error;
 
-const persistConfig = {
-  key: 'contacts',
-  storage,
-}
+// const persistConfig = {
+//   key: 'contacts',
+//   storage,
+// }
 
-export const contactsPersistReducer = persistReducer(
-    persistConfig,
-    phoneBookSlice.reducer
-);
+// export const contactsPersistReducer = persistReducer(
+//     persistConfig,
+//     phoneBookSlice.reducer
+// );
