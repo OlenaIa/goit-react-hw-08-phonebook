@@ -1,7 +1,5 @@
 import { createSlice, isAnyOf } from '@reduxjs/toolkit'
 import { delContactThunk, getContactsThunk, postContactThunk } from 'services/fetchContacts';
-import { persistReducer } from 'redux-persist'
-import storage from 'redux-persist/lib/storage' // defaults to localStorage for web
 
 const contactInitialState = {
     contacts: [],
@@ -52,13 +50,3 @@ export const phoneBookSlice = createSlice({
 export const getPhoneBookValue = state => state.phoneBook.contacts;
 export const getIsLoading = state => state.phoneBook.isLoading;
 export const getError = state => state.phoneBook.error;
-
-// const persistConfig = {
-//   key: 'contacts',
-//   storage,
-// }
-
-// export const contactsPersistReducer = persistReducer(
-//     persistConfig,
-//     phoneBookSlice.reducer
-// );

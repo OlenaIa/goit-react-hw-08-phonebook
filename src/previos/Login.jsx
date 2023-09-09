@@ -24,7 +24,6 @@ const LoginForm = () => {
         }
     }
 
-
     const onSubmitLogIn = (event) => {
         event.preventDefault();
         const logInUser = { email, password };

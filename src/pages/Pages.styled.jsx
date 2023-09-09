@@ -9,13 +9,13 @@ gap: 20px;
 `
 
 export const StyledLink = styled(Link)`
-  color: red;
+  color: #ebd5d5f87878;
   font-weight: 700;
   padding: 6px;
   border: 1px solid red;
 width: 100px;
   &.active {
-    color: orange;
+    color: rgba(155, 154, 151, 0.589);
   }
 `;
 

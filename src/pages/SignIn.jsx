@@ -1,0 +1,92 @@
+import * as React from 'react';
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { postLogInThunk } from "services/fetchAuth";
+import { Avatar, Button, CssBaseline, TextField, Box, Container, Typography } from '@mui/material';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+
+export default function SignIn() {
+  const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const dispatch = useDispatch();
+
+    const onChangeInput = (event) => {
+        const { name, value } = event.currentTarget;
+        switch (name) {
+            case 'email':
+                setEmail(value);
+                break;
+            case 'password':
+                setPassword(value);
+                break;
+            
+            default:
+                break;
+        }
+    }
+
+    const onSubmitLogIn = (event) => {
+        event.preventDefault();
+        const logInUser = { email, password };
+        dispatch(postLogInThunk(logInUser));
+
+        setEmail('');
+        setPassword('');
+    }
+
+  return (
+      <Container component="main" maxWidth="xs" sx={{mb: 'auto'}}>
+        <CssBaseline />
+        <Box
+          sx={{
+            marginTop: 8,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}
+        >
+          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+            <LockOutlinedIcon />
+          </Avatar>
+          <Typography component="h1" variant="h5">
+            Sign in
+          </Typography>
+          <Box component="form" onSubmit={onSubmitLogIn} sx={{ mt: 1 }}>
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="email"
+              value={email}
+              type="email"
+              label="Email Address"
+              name="email"
+              autoComplete="email"
+              onChange={onChangeInput}
+              autoFocus
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              label="Password"
+              type="password"
+              name="password"
+              value={password}
+              id="password"
+              autoComplete="current-password"
+              onChange={onChangeInput}
+            />
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+            >
+              Sign In
+            </Button>
+          </Box>
+        </Box>
+      </Container>
+  );
+}

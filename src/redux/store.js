@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { filterSlice } from './filterSlice'
-import { contactsPersistReducer, phoneBookSlice } from './phoneBookSlice'
+import { phoneBookSlice } from './phoneBookSlice'
 import {
   persistStore,
   FLUSH,
@@ -10,7 +10,7 @@ import {
   PURGE,
   REGISTER,
 } from 'redux-persist'
-import { authPersistReducer, authSlice } from './auth/authSlice';
+import { authPersistReducer } from './auth/authSlice';
 
 export const store = configureStore({
     reducer: {
@@ -25,6 +25,5 @@ export const store = configureStore({
             },
         }),
 });
-
 
 export const persistor = persistStore(store);

@@ -1,14 +1,13 @@
 import { Outlet } from "react-router-dom"
-import { HeaderStyled, MainTitle, NavStyled, StyledNavLink } from "./Layout.styled";
 import { Suspense } from "react"; 
-import Footer from "pages/Footer";
-import { AppBar } from "components/AppBar/AppBar";
+import Footer from "components/Footer/Footer";
+import { MyAppBar } from "components/MyAppBar/MyAppBar";
     
 export const Layout = () => {
     return <>
-        <HeaderStyled>
-            <AppBar />
-        </HeaderStyled>
+        <header>
+            <MyAppBar />
+        </header>
         <main>
             <Suspense fallback={<div>Loading...</div>}>
                 <Outlet />
