@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { filterSlice } from './filterSlice'
-import { phoneBookSlice } from './phoneBookSlice'
+import { phoneBookSlice } from './phoneBook/phoneBookSlice'
 import {
   persistStore,
   FLUSH,

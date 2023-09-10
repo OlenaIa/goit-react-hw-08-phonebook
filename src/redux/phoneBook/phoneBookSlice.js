@@ -46,7 +46,3 @@ export const phoneBookSlice = createSlice({
             .addMatcher(isAnyOf(...addStatusToActs('rejected')), onRejected)
     }
 });
-
-export const getPhoneBookValue = state => state.phoneBook.contacts;
-export const getIsLoading = state => state.phoneBook.isLoading;
-export const getError = state => state.phoneBook.error;

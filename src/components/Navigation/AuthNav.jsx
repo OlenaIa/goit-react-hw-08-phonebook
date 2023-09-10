@@ -1,9 +1,9 @@
 import { Toolbar } from "@mui/material";
-import { StyledNavLink } from "components/Layout/Layout.styled";
+import { StyledNavLink, toolbarStyle } from "components/Navigation/StyleNav";
 
 export const AuthNav = () => {
   return (
-    <Toolbar sx={{display: 'flex', columnGap: 3,}}>
+    <Toolbar sx={toolbarStyle}>
       <StyledNavLink to="/register">
         Registration
       </StyledNavLink>

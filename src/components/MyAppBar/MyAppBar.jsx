@@ -1,5 +1,5 @@
 import { AppBar, Toolbar } from "@mui/material";
-import { AuthNav } from "components/AuthNav/AuthNav";
+import { AuthNav } from "components/Navigation/AuthNav";
 import { Navigation } from "components/Navigation/Navigation";
 import { UserMenu } from "components/UserMenu/UserMenu";
 import { useSelector } from "react-redux";

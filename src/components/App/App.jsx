@@ -6,7 +6,7 @@ import { getCurrentUserThunk } from "services/fetchAuth";
 import { selectCurrentUser } from "redux/auth/authSelector";
 import { RestrictedRoute } from "components/RestrictedRouter";
 import { PrivateRoute } from "components/PrivateRoute";
-import { Container } from "@mui/material";
+import { IsCurrentUserLoader } from "components/Loader/Loader";
 
 const HomePage = lazy(() => import("pages/HomePage"));
 const SignIn = lazy(() => import("pages/SignIn"));
@@ -22,8 +22,8 @@ export const App = () => {
   }, [dispatch]);
 
   return isCurrentUser ?
-    (<p>User updates</p>) :
-    (<Container>
+    <IsCurrentUserLoader/> :
+    (<>
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<HomePage />} />
@@ -33,6 +33,6 @@ export const App = () => {
           <Route path="*" element={<PrivateRoute redirectTo="/login" component={<HomePage />} />} />
         </Route>
       </Routes>
-    </Container>
+    </>
   )
 };

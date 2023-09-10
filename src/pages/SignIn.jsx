@@ -4,48 +4,42 @@ import { useDispatch } from "react-redux";
 import { postLogInThunk } from "services/fetchAuth";
 import { Avatar, Button, CssBaseline, TextField, Box, Container, Typography } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import { avatarStyle, boxFormStyle } from './StylePages';
 
 export default function SignIn() {
   const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const dispatch = useDispatch();
+  const [password, setPassword] = useState('');
+  const dispatch = useDispatch();
 
-    const onChangeInput = (event) => {
-        const { name, value } = event.currentTarget;
-        switch (name) {
-            case 'email':
-                setEmail(value);
-                break;
-            case 'password':
-                setPassword(value);
-                break;
+  const onChangeInput = (event) => {
+    const { name, value } = event.currentTarget;
+    switch (name) {
+      case 'email':
+        setEmail(value);
+        break;
+      case 'password':
+        setPassword(value);
+        break;
             
-            default:
-                break;
-        }
+      default:
+        break;
     }
+  };
 
-    const onSubmitLogIn = (event) => {
-        event.preventDefault();
-        const logInUser = { email, password };
-        dispatch(postLogInThunk(logInUser));
+  const onSubmitLogIn = (event) => {
+    event.preventDefault();
+    const logInUser = { email, password };
+    dispatch(postLogInThunk(logInUser));
 
-        setEmail('');
-        setPassword('');
-    }
+    setEmail('');
+    setPassword('');
+  };
 
   return (
-      <Container component="main" maxWidth="xs" sx={{mb: 'auto'}}>
+      <Container component="main" maxWidth="xs">
         <CssBaseline />
-        <Box
-          sx={{
-            marginTop: 8,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-          }}
-        >
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+        <Box sx={boxFormStyle}>
+          <Avatar sx={avatarStyle}>
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
@@ -56,7 +50,6 @@ export default function SignIn() {
               margin="normal"
               required
               fullWidth
-              id="email"
               value={email}
               type="email"
               label="Email Address"
@@ -73,7 +66,6 @@ export default function SignIn() {
               type="password"
               name="password"
               value={password}
-              id="password"
               autoComplete="current-password"
               onChange={onChangeInput}
             />
@@ -89,4 +81,4 @@ export default function SignIn() {
         </Box>
       </Container>
   );
-}
+};

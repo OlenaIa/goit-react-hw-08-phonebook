@@ -2,32 +2,47 @@ import * as React from 'react';
 import { useState, useEffect } from "react";
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import { useDispatch, useSelector } from "react-redux";
-import { getError, getPhoneBookValue } from "redux/phoneBookSlice";
+import { selectPhoneBookValue } from "redux/phoneBook/phoneSelector";
 import { postContactThunk } from "services/fetchContacts";
 import { Avatar, Button, TextField, Box, Typography } from '@mui/material';
 import ContactsIcon from '@mui/icons-material/Contacts';
+import { LoadAdd } from 'components/Loader/Loader';
+import { avatarStyle } from 'pages/StylePages';
 
 export const options = {
     width: '400px',
     position: 'center-center',
-    timeout: 3000,
+    timeout: 2000,
     fontSize: '20px',
 };
 
 export const Form = () => {
     const [name, setName] = useState('');
     const [number, setNumber] = useState('');
-    const dispatch = useDispatch();
-    const phoneBook = useSelector(getPhoneBookValue);
-    // const error = useSelector(getError);
+    const [add, setAdd] = useState(false);
 
-    // useEffect(() => {
-    //     console.log('error in use Effect',error);
-        // if (error) {
-        //     return;
-        // }
-        // reset();
-    // }, [error])
+    const dispatch = useDispatch();
+    const phoneBook = useSelector(selectPhoneBookValue);
+
+    const [contactsCounter, setContactsCounter] = useState(phoneBook.length);
+    // console.log('Start contactsCounter', contactsCounter);
+
+    useEffect(() => {
+        setAdd(false)
+    }, [phoneBook])
+
+    useEffect(() => {
+        // console.log('phoneBook.length and contactsCounter:', (phoneBook.length), 'and', contactsCounter);
+        if ((phoneBook.length) > contactsCounter) {
+            Notify.success(`Contact added successfully`, options);
+            setContactsCounter(phoneBook.length)
+        };
+        if ((phoneBook.length) < contactsCounter) {
+            Notify.info(`Contact delete successfully`, options);
+            setContactsCounter(phoneBook.length)
+        };
+    },
+        [phoneBook.length, contactsCounter]);
     
     const onSubmitAddContact = (event) => {
         event.preventDefault();
@@ -37,15 +52,8 @@ export const Form = () => {
             Notify.warning(`${newObj.name} is already in contacts`, options);
             return;
         };
-
+        setAdd(true);
         dispatch(postContactThunk(newObj))
-// console.log('error in Submit', error);
-        // if (!error) {
-            // Notify.warning(`${error} `, options);
-                    reset();
-
-            // return;
-        // }
         
         reset();
     };
@@ -77,7 +85,7 @@ export const Form = () => {
 
     return (
         <>
-            <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+            <Avatar sx={avatarStyle}>
                 <ContactsIcon />
             </Avatar>
             <Typography component="h1" variant="h5">
@@ -116,9 +124,10 @@ export const Form = () => {
                     type="submit"
                     fullWidth
                     variant="contained"
-                    sx={{ mt: 3, mb: 2 }}
+                    sx={{ mt: 3, mb: 2, display: 'flex', gap: 3 }}
                 >
-                    Add contact
+                    {add && <LoadAdd />}
+                    <p>Add contact</p> 
                 </Button>
             </Box>
             </>
