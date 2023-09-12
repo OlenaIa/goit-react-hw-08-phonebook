@@ -1,28 +1,15 @@
 import * as React from 'react';
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { postLogInThunk } from "services/fetchAuth";
 import { Avatar, Button, CssBaseline, TextField, Box, Container, Typography } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { avatarStyle, boxFormStyle } from './StylePages';
-import { selectError } from 'redux/auth/authSelector';
-import { useEffect } from 'react';
-import { Notify } from 'notiflix';
-import { options } from 'components/Form/Form';
 
 export default function SignIn() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const dispatch = useDispatch();
-  const error = useSelector(selectError);
-  console.log(error);
-
-  useEffect(() => {
-    if (error === 'Unable to fetch user') {
-      return;
-    }
-    error && Notify.failure(`You entered an incorrect login or password`, options);
-  }, [error])
 
   const onChangeInput = (event) => {
     const { name, value } = event.currentTarget;
@@ -59,7 +46,7 @@ export default function SignIn() {
             <TextField
               margin="normal"
               required
-              inputProps={{ inputMode: 'email', pattern: "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$" }}
+              // inputProps={{ inputMode: 'email', pattern: "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$" }}
               fullWidth
               value={email}
               type="email"

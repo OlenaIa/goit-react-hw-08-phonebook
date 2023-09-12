@@ -12,7 +12,7 @@ import { avatarStyle } from 'pages/StylePages';
 export const options = {
     width: '400px',
     position: 'center-center',
-    timeout: 2000,
+    timeout: 1500,
     fontSize: '20px',
 };
 

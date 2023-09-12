@@ -2,30 +2,16 @@ import * as React from 'react';
 import { Avatar, Button, Container, Typography, CssBaseline, TextField, Box } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { postUserThunk } from "services/fetchAuth";
 import { avatarStyle, boxBottomFStyle, boxFormStyle } from './StylePages';
 import { StyledNavLink } from 'components/Navigation/StyleNav';
-import { selectError } from 'redux/auth/authSelector';
-import { Notify } from 'notiflix/build/notiflix-notify-aio';
-import { options } from 'components/Form/Form';
-import { useEffect } from 'react';
-
 
 export default function SignUp() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const dispatch = useDispatch();
-  const error = useSelector(selectError);
-  console.log(error);
-
-  useEffect(() => {
-    if (error === 'Unable to fetch user') {
-      return;
-    }
-    error && Notify.failure(`We're sorry, something went wrong`, options);
-  }, [error])
 
   const onChangeInput = (event) => {
     const { name, value } = event.currentTarget;
@@ -81,7 +67,7 @@ export default function SignUp() {
             margin="normal"
             required
             helperText="Please enter a valid email address"
-            inputProps={{ inputMode: 'email', pattern: "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$" }}
+            // inputProps={{ inputMode: 'email', pattern: "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$" }}
             fullWidth
             id="email"
             label="Email Address"
@@ -97,7 +83,7 @@ export default function SignUp() {
             required
             helperText='The password must contain at least 7 characters'
             fullWidth
-            inputProps={{ inputMode: 'email', pattern: "^[a-zA-Z0-9!@#$%^&*()-_=+`~{}|:<>/?]+$" }}
+            // inputProps={{ inputMode: 'email', pattern: "^[a-zA-Z0-9!@#$%^&*()-_=+`~{}|:<>/?]+$" }}
             type="password"
             name="password"
             value={password}
