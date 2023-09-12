@@ -2,19 +2,34 @@ import * as React from 'react';
 import { Avatar, Button, Container, Typography, CssBaseline, TextField, Box } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { postUserThunk } from "services/fetchAuth";
 import { avatarStyle, boxBottomFStyle, boxFormStyle } from './StylePages';
 import { StyledNavLink } from 'components/Navigation/StyleNav';
+import { selectError } from 'redux/auth/authSelector';
+import { Notify } from 'notiflix/build/notiflix-notify-aio';
+import { options } from 'components/Form/Form';
+import { useEffect } from 'react';
+
 
 export default function SignUp() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const dispatch = useDispatch();
+  const error = useSelector(selectError);
+  console.log(error);
+
+  useEffect(() => {
+    if (error === 'Unable to fetch user') {
+      return;
+    }
+    error && Notify.failure(`We're sorry, something went wrong`, options);
+  }, [error])
 
   const onChangeInput = (event) => {
     const { name, value } = event.currentTarget;
+
     switch (name) {
       case 'name':
         setName(value);
@@ -35,10 +50,6 @@ export default function SignUp() {
     event.preventDefault();
     const newUser = { name, email, password };
     dispatch(postUserThunk(newUser));
-
-    setName('');
-    setEmail('');
-    setPassword('');
   }
 
   return (
@@ -54,11 +65,12 @@ export default function SignUp() {
         <Box component="form" onSubmit={onSubmitUser} sx={{ mt: 1 }}>
           <TextField
             margin="normal"
+            helperText="The name must contain only letters, apostrophes, hyphens and indents."
             inputProps={{ inputMode: 'text', pattern: "^[a-zA-Zа-яА-Я]+(([a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$" }}
             autoComplete="name"
             name="name"
             value={name}
-            // pattern="^[a-zA-Zа-яА-Я]+(([' \-][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
+            pattern="^[a-zA-Zа-яА-Я]+(([' \-][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
             required
             fullWidth
             label="Name"
@@ -68,21 +80,29 @@ export default function SignUp() {
           <TextField
             margin="normal"
             required
+            helperText="Please enter a valid email address"
+            inputProps={{ inputMode: 'email', pattern: "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$" }}
             fullWidth
             id="email"
             label="Email Address"
             type="email"
             name="email"
-            value={email} autoComplete="email"
+            pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+            value={email}
+            autoComplete="email"
             onChange={onChangeInput}
           />
           <TextField
             margin="normal"
             required
+            helperText='The password must contain at least 7 characters'
             fullWidth
+            inputProps={{ inputMode: 'email', pattern: "^[a-zA-Z0-9!@#$%^&*()-_=+`~{}|:<>/?]+$" }}
             type="password"
             name="password"
-            value={password} label="Password"
+            value={password}
+            label="Password"
+            pattern="^[a-zA-Z0-9!@#$%^&*()-_=+`~[\]{}|:<>/?]+$"
             id="password"
             autoComplete="new-password"
             onChange={onChangeInput}

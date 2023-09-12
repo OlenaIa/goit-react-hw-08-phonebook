@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useState, useEffect } from "react";
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import { useDispatch, useSelector } from "react-redux";
-import { selectPhoneBookValue } from "redux/phoneBook/phoneSelector";
+import { selectIsContactAdd, selectPhoneBookValue } from "redux/phoneBook/phoneSelector";
 import { postContactThunk } from "services/fetchContacts";
 import { Avatar, Button, TextField, Box, Typography } from '@mui/material';
 import ContactsIcon from '@mui/icons-material/Contacts';
@@ -23,26 +23,17 @@ export const Form = () => {
 
     const dispatch = useDispatch();
     const phoneBook = useSelector(selectPhoneBookValue);
-
-    const [contactsCounter, setContactsCounter] = useState(phoneBook.length);
-    // console.log('Start contactsCounter', contactsCounter);
+    const isContactAdd = useSelector(selectIsContactAdd);
 
     useEffect(() => {
         setAdd(false)
     }, [phoneBook])
 
     useEffect(() => {
-        // console.log('phoneBook.length and contactsCounter:', (phoneBook.length), 'and', contactsCounter);
-        if ((phoneBook.length) > contactsCounter) {
-            Notify.success(`Contact added successfully`, options);
-            setContactsCounter(phoneBook.length)
-        };
-        if ((phoneBook.length) < contactsCounter) {
-            Notify.info(`Contact delete successfully`, options);
-            setContactsCounter(phoneBook.length)
-        };
-    },
-        [phoneBook.length, contactsCounter]);
+        if (isContactAdd) {
+            reset();
+        }
+    }, [isContactAdd]);
     
     const onSubmitAddContact = (event) => {
         event.preventDefault();
@@ -54,8 +45,7 @@ export const Form = () => {
         };
         setAdd(true);
         dispatch(postContactThunk(newObj))
-        
-        reset();
+        // reset();
     };
 
     const isNameNew = (phoneBook, newObj) => {

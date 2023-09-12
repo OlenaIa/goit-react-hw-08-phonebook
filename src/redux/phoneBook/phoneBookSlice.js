@@ -4,17 +4,21 @@ import { delContactThunk, getContactsThunk, postContactThunk } from 'services/fe
 const contactInitialState = {
     contacts: [],
     isLoading: false,
-    error: null
+    error: null,
+    isContactAdd: false,
 };
 
 const onPending = (state) => {
     state.isLoading = true;
     state.error = null;
+        state.isContactAdd = false;
+
 };
 
 const onRejected = (state, { payload }) => {
     state.isLoading = false;
     state.error = payload;
+    state.isContactAdd = false;
 };
 
 const arrOfActs = [getContactsThunk, postContactThunk, delContactThunk];
@@ -36,6 +40,7 @@ export const phoneBookSlice = createSlice({
                 state.isLoading = false;
                 state.contacts = [...state.contacts, payload]
                 state.error = null;
+                state.isContactAdd = true;
             })
             .addCase(delContactThunk.fulfilled, (state, { payload }) => {
                 state.isLoading = false;
