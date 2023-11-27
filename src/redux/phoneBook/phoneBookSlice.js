@@ -11,7 +11,7 @@ const contactInitialState = {
 const onPending = (state) => {
     state.isLoading = true;
     state.error = null;
-        state.isContactAdd = false;
+    state.isContactAdd = false;
 
 };
 
